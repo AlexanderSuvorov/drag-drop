@@ -1,0 +1,17 @@
+.drag-window {
+	width: 400px;
+	position: fixed;
+	top: 100px;
+	left: 200px;
+	border: 2px solid #9be;
+	border-radius: 5px;
+}
+.drag-spot {
+	1width: 80%;
+	height: 30px;
+	background-color: #9be;
+}
+.drag-body {
+	height: 300px;
+	background: #fff;
+}
