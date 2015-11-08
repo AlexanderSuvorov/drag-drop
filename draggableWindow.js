@@ -26,14 +26,22 @@
 				// get max z-index for this window
 				increaseZ(wind);
 
+				// get size of the page
 				w_width = document.documentElement.clientWidth;
 				w_height = document.documentElement.clientHeight;
 
+				// calculate the position of cursor
+				// for it we subtract the position of drag window on the browser window
+				// from the position of cursor on the browser window
 				ox = e.clientX - wind.offsetLeft;
 				oy = e.clientY - wind.offsetTop;
 
+				// if page height more than browser window height
+				// scroll exists, assign it width "5"
+				// why "5" I don't know
 				scroll_width = w_height < document.body.offsetHeight ? 5 : 0;
 
+				// assign drag true to indicate the start
 				drag = true;
 
 			}, false)
