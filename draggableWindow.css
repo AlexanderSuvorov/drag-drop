@@ -13,6 +13,7 @@
 	background-color: #9be;
 }
 .drag-body {
+	height: 300px;
 	padding: 10px;
 	background: #fff;
 }
