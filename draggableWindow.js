@@ -1,7 +1,6 @@
 // to do:
 //	- resizeble;
 //	- prevent select;
-//	- increase z-index;
 //	- memorize position;
 //	- add comments;
 //	- cursors
@@ -14,21 +13,24 @@
 
 	}
 
-	function dragElement(el) {
+	function dragElement(wind) {
 
 		var w_width, w_height, ox, oy, scroll_width, drag, ex_1, ey_1, ex_2, ey_2;
 
-		if ( el ) {
+		if ( wind ) {
 
-			var drag_spot = el.getElementsByClassName('dragSpot')[0];
+			var drag_spot = wind.getElementsByClassName('dragSpot')[0];
 			
 			drag_spot.addEventListener('mousedown', function(e) {
+
+				// get max z-index for this window
+				increaseZ(wind);
 
 				w_width = document.documentElement.clientWidth;
 				w_height = document.documentElement.clientHeight;
 
-				ox = e.clientX - el.offsetLeft;
-				oy = e.clientY - el.offsetTop;
+				ox = e.clientX - wind.offsetLeft;
+				oy = e.clientY - wind.offsetTop;
 
 				scroll_width = w_height < document.body.offsetHeight ? 5 : 0;
 
@@ -40,62 +42,62 @@
 
 				drag = false;
 
-				var top = el.offsetTop;
-				var left = el.offsetLeft;
+				var top = wind.offsetTop;
+				var left = wind.offsetLeft;
 
 			}, false)
 
 			document.addEventListener('mousemove', function(e){
 
-				ex_1 = el.offsetLeft;
-				ey_1 = el.offsetTop;
-				ex_2 = ex_1 + parseInt( getComputedStyle(el).width );
-				ey_2 = ey_1 + parseInt( getComputedStyle(el).height );
+				ex_1 = wind.offsetLeft;
+				ey_1 = wind.offsetTop;
+				ex_2 = ex_1 + parseInt( getComputedStyle(wind).width );
+				ey_2 = ey_1 + parseInt( getComputedStyle(wind).height );
 
 				if ( drag ) {
 
 					var hor, vert;
 
-					hor = e.clientX - ox <= 0 && ex_1 <= 0 || e.clientX + ( parseInt( getComputedStyle(el).width ) - ox ) >= w_width - scroll_width && ex_2 >= w_width - scroll_width ? false : true;
-					vert = e.clientY - oy <= 0 && ey_1 <= 0 || e.clientY + ( parseInt( getComputedStyle(el).height ) - oy ) >= w_height && ey_2 >= w_height  ? false : true;
+					hor = e.clientX - ox <= 0 && ex_1 <= 0 || e.clientX + ( parseInt( getComputedStyle(wind).width ) - ox ) >= w_width - scroll_width && ex_2 >= w_width - scroll_width ? false : true;
+					vert = e.clientY - oy <= 0 && ey_1 <= 0 || e.clientY + ( parseInt( getComputedStyle(wind).height ) - oy ) >= w_height && ey_2 >= w_height  ? false : true;
 
 					if ( hor && vert ) {
 
-						el.style.left = e.clientX - ox + 'px';
-						el.style.top = e.clientY - oy + 'px';
+						wind.style.left = e.clientX - ox + 'px';
+						wind.style.top = e.clientY - oy + 'px';
 
 					}
 
 					else if ( vert && !hor ) {
 
-						el.style.top = e.clientY - oy + 'px';
+						wind.style.top = e.clientY - oy + 'px';
 
-							if ( parseInt( el.style.left ) < 0 ) {
+							if ( parseInt( wind.style.left ) < 0 ) {
 
-								el.style.left = 0 + 'px';
+								wind.style.left = 0 + 'px';
 
 							}
 
-							else if ( parseInt( el.style.left ) + parseInt( getComputedStyle(el).width ) > w_width - scroll_width ) {
+							else if ( parseInt( wind.style.left ) + parseInt( getComputedStyle(wind).width ) > w_width - scroll_width ) {
 
-								el.style.left = w_width - scroll_width - parseInt( getComputedStyle(el).width ) + 'px';
+								wind.style.left = w_width - scroll_width - parseInt( getComputedStyle(wind).width ) + 'px';
 
 							}
 
 					}
 					else if ( hor && !vert ) {
 
-						el.style.left = e.clientX - ox + 'px';
+						wind.style.left = e.clientX - ox + 'px';
 
-							if ( parseInt(el.style.top) < 0 ) {
+							if ( parseInt(wind.style.top) < 0 ) {
 
-								el.style.top = 0 + 'px';
+								wind.style.top = 0 + 'px';
 
 							}
 
-							else if ( parseInt( el.style.top ) + parseInt( getComputedStyle(el).height ) > w_height ) {
+							else if ( parseInt( wind.style.top ) + parseInt( getComputedStyle(wind).height ) > w_height ) {
 
-								el.style.top = w_height - parseInt( getComputedStyle(el).height ) + 'px';
+								wind.style.top = w_height - parseInt( getComputedStyle(wind).height ) + 'px';
 
 							}
 
@@ -106,6 +108,42 @@
 			}, false)
 
 		}
+
+	}
+
+	// increase max z-index value of the windows
+	// and get it to a current window
+	function increaseZ(el) {
+
+		// Create new set of windows and
+		// new array for set of z-index values
+		var wind = document.getElementsByClassName('dragWindow');
+		var arrayZ = new Array();
+
+		// loop through set of windows, get z-index values
+		// and push it to array
+		for ( var i = 0; i < wind.length; i++ ) {
+
+			// if z-index value exists in the attribute "style" get it
+			if ( wind[i].style.zIndex ) arrayZ.push( parseInt( wind[i].style.zIndex ) )
+
+				// else get z-index value from css styles
+				else {
+
+					var windStyles = getComputedStyle( wind[i] );
+
+					arrayZ.push( parseInt( windStyles.zIndex ) );
+
+				}
+
+		}
+
+		// get max value from array
+		var maxZ = Math.max.apply( Math, arrayZ );
+
+		// increase value by one and 
+		// assign it to a current window
+		el.style.zIndex = ++maxZ;
 
 	}
 
