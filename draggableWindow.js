@@ -1,8 +1,8 @@
 // to do:
 //	- resizeble;
-//	- prevent select;
+//	- prevent select (done?);
 //	- rewhrite only active window position(cookie);
-// 	- roll up/down;
+// 	- roll up/down (I think I turned the wrong way);
 //	- add comments;
 //	- cursors
 
@@ -30,6 +30,8 @@
 			if ( getCookie( id + '_Top' ) ) wind.style.top = getCookie( id + '_Top' ) + "px"
 
 			if ( getCookie( id + '_Left' ) ) wind.style.left = getCookie( id + '_Left' ) + "px"
+
+			rollElement(wind);
 
 			var drag_spot = wind.getElementsByClassName('dragSpot')[0];
 			
@@ -177,6 +179,19 @@
 		// increase value by one and 
 		// assign it to a current window
 		if ( el.style.zIndex != maxZ ) el.style.zIndex = ++maxZ
+
+	}
+
+	function rollElement(el) {
+
+		var rollBtn = el.getElementsByClassName('roll')[0];
+
+		rollBtn.addEventListener('click', function(e) {
+
+			el.classList.add('minimized');
+			el.removeAttribute('style');
+
+		}, false);
 
 	}
 

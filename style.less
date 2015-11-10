@@ -1,0 +1,69 @@
+@col_1: #9be;
+@col_2: #a89; 
+
+.drag-window {
+	width: 400px;
+	position: fixed;
+	top: 100px;
+	left: 200px;
+	z-index: 12;
+	border: 2px solid @col_1;
+	border-radius: 5px;
+		&:first-child{
+			border-color: @col_2;
+				.drag-head{
+					background-color: @col_2;
+				}
+		}
+		.drag-head{
+			height: 30px;
+			line-height: 28px;
+			padding: 0 10px;
+			overflow: hidden;
+			background-color: @col_1;
+			color: #fff;
+			cursor: context-menu;
+			.select(none);
+				.drag-spot {
+					height: 100%;
+				}
+				.roll{
+					float: right;
+					cursor: pointer;
+				}
+		}
+		.drag-body {
+			height: 300px;
+			padding: 10px;
+			background: #fff;
+		}
+}
+
+.minimized{
+	width: 200px;
+	top: auto;
+	right: auto;
+	bottom: 0;
+	opacity: .9;
+	&:hover{
+		opacity: 1;
+		.drag-head{
+			cursor: pointer;
+		}
+	}
+	.roll, .drag-body{
+		display: none;
+	}
+}
+
+.unselecteble() {
+	.select(none);
+}
+
+.select(@param) {
+	-ms-user-select: @param;
+	-moz-user-select: @param;
+	-khtml-user-select: @param;
+	-webkit-user-select: @param;
+	user-select: @param;
+}

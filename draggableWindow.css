@@ -7,11 +7,16 @@
 	border: 2px solid #9be;
 	border-radius: 5px;
 }
-.drag-spot {
-	1width: 80%;
+.drag-head{
 	height: 30px;
+	line-height: 28px;
+	padding: 0 10px;
+	overflow: hidden;
 	background-color: #9be;
+	color: #fff;
+	cursor: context-menu;
 }
+
 .drag-body {
 	height: 300px;
 	padding: 10px;
